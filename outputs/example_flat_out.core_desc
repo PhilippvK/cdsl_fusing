@@ -1,0 +1,26 @@
+import "rv_base/RV64I.core_desc"
+
+InstructionSet MySet extends RV64I {
+    functions {
+        extern unsigned<64> MULW(unsigned<64> rs1_val, unsigned<64> rs2_val) [[instr="MULW"]] [[inline]];
+        extern unsigned<64> ADDW(unsigned<64> rs1_val, unsigned<64> rs2_val) [[instr="ADDW"]] [[inline]];
+    }
+    instructions {
+        MyInst [[fuse]] {
+            encoding: 2'b00 :: rs3[4:0] :: rs2[4:0] :: rs1[4:0] :: 3'b000 :: rd[4:0] :: 7'b1111011;
+            assembly: {"myinst", "{name(rd)}, {name(rs1)}, {name(rs2)}, {name(rs3)}"};
+            behavior: X[rd] = (unsigned<64>)((ADDW((unsigned<64>)((MULW(X[rs1], X[rs2]))), X[rs3])));
+        }
+        ADDW [[outline]] {
+            encoding: 7'b0000000 :: rs2[4:0] :: rs1[4:0] :: 3'b000 :: rd[4:0] :: 7'b0111011;
+            assembly: {"addw", ""};
+            behavior: X[rd] = (signed<64>)((signed<32>)(X[rs1]) + (signed<32>)(X[rs2]));
+        }
+        MULW [[outline]] {
+            encoding: 7'b0000001 :: rs2[4:0] :: rs1[4:0] :: 3'b000 :: rd[4:0] :: 7'b0111011;
+            assembly: {"mulw", "{name(rd)}, {name(rs1)}, {name(rs2)}"};
+            behavior: X[rd] = (unsigned)((signed<32>)(((signed<32>)(X[rs1]) * (signed<32>)(X[rs2]))));
+        }
+    }
+}
+

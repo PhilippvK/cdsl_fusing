@@ -1,0 +1,12 @@
+import "rv_base/RV64I.core_desc"
+
+InstructionSet MySet extends RV64I {
+    instructions {
+        MyInst [[fuse]] {
+            encoding: 2'b00 :: rs3[4:0] :: rs2[4:0] :: rs1[4:0] :: 3'b000 :: rd[4:0] :: 7'b1111011;
+            assembly: {"myinst", "{name(rd)}, {name(rs1)}, {name(rs2)}, {name(rs3)}"};
+            behavior: X[rd] = (unsigned<64>)(((signed<64>)((signed<32>)(((signed<32>)((unsigned<64>)(((signed<64>)((signed<32>)(((signed<32>)(X[rs1]) * (signed<32>)(X[rs2]))))))) + (signed<32>)(X[rs3]))))));
+        }
+    }
+}
+
