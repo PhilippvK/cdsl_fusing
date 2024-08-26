@@ -2,7 +2,13 @@
 
 ## Setup
 
-TODO
+```
+git submodule update --init --recursive
+virtualenv -p python3 venv
+source venv/bin/activate
+pip install -e M2-ISA-R
+PYTHONPATH=$(pwd)/M2-ISA-R:$PYTHONPATH
+```
 
 ## Instructions
 
@@ -55,3 +61,7 @@ python3 -m m2isar.transforms.eliminate_scalar_assignments.transform gen_model/ex
 python -m m2isar.backends.coredsl2_set.writer ./gen_model/example_flat.m2isarmodel -o outputs/example_flat_out.core_desc
 python -m m2isar.backends.coredsl2_set.writer ./gen_model/example_flat_manual.m2isarmodel -o outputs/example_flat_manual_out.core_desc
 ```
+
+## Workarounds
+
+Parser seems to have issues if one file is imported multiple times. Comment out all but the first include and it should work... (i.e. in `RVM.core_desc`)
