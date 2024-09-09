@@ -1,0 +1,32 @@
+import "RV64I.core_desc"
+// import "RISCVBase.core_desc"
+import "RVM.core_desc"
+
+InstructionSet MySet extends RV64I {
+    functions {
+        extern unsigned<64> MULW(unsigned<64> rs1_val, unsigned<64> rs2_val) [[instr="MULW"]] [[inline]];
+        extern unsigned<64> ADDW(unsigned<64> rs1_val, unsigned<64> rs2_val) [[instr="ADDW"]] [[inline]];
+    }
+    instructions {
+        MyInst [[fuse]] {
+            operands: {
+                unsigned<5> rd [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[out]];
+                unsigned<5> rs1 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
+                unsigned<5> rs2 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
+                unsigned<5> rs3 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
+            }
+            encoding: auto;
+            assembly: {"myinst", "{name(rd)}, {name(rs1)}, {name(rs2)}, {name(rs3)}"};
+            behavior: {
+                unsigned<64> rs3_val=X[rs3];
+                unsigned<64> rs1_val=X[rs1];
+                unsigned<64> rs2_val=X[rs2];
+                unsigned<64> outp0=(unsigned<64>)(ADDW((unsigned<64>)(MULW(rs1_val,rs2_val)),rs3_val));
+                X[rd]=outp0;
+
+            }
+        }
+
+
+    }
+}
