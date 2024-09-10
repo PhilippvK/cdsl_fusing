@@ -15,13 +15,13 @@ PYTHONPATH=$(pwd)/M2-ISA-R:$PYTHONPATH
 ### Parse original CDSL
 ```
 python3 -m m2isar.frontends.coredsl2_set.parser inputs/example_flat.core_desc -I ./etiss_arch_riscv/rv_base
-python3 -m m2isar.frontends.coredsl2_set.parser inputs/example_flat_manual.core_desc -I ./etiss_arch_riscv/rv_base
+# python3 -m m2isar.frontends.coredsl2_set.parser inputs/example_flat_manual.core_desc -I ./etiss_arch_riscv/rv_base
 ```
 
 ### Add encoding to unencoded instructions
 ```
 python3 -m m2isar.transforms.encode_instructions.encoder inputs/gen_model/example_flat.m2isarmodel --inplace
-python3 -m m2isar.transforms.encode_instructions.encoder inputs/gen_model/example_flat_manual.m2isarmodel --inplace
+# python3 -m m2isar.transforms.encode_instructions.encoder inputs/gen_model/example_flat_manual.m2isarmodel --inplace
 ```
 
 
@@ -59,7 +59,7 @@ python3 -m m2isar.transforms.eliminate_scalar_assignments.transform inputs/gen_m
 ### Write resulting CDSL
 ```
 python -m m2isar.backends.coredsl2_set.writer inputs/gen_model/example_flat.m2isarmodel -o outputs/example_flat_out.core_desc
-python -m m2isar.backends.coredsl2_set.writer inputs/gen_model/example_flat_manual.m2isarmodel -o outputs/example_flat_manual_out.core_desc
+# python -m m2isar.backends.coredsl2_set.writer inputs/gen_model/example_flat_manual.m2isarmodel -o outputs/example_flat_manual_out.core_desc
 ```
 
 ## Workarounds
