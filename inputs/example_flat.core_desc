@@ -72,7 +72,12 @@ InstructionSet MySet extends RV64I {
         }
 
         CV_LW_ri_inc [[fuse]] {
-            encoding: imm12[11:0] :: rs1[4:0] :: 3'b010 :: rd[4:0] :: 7'b0001011;
+            operands: {
+                unsigned<5> rd [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[out]];
+                unsigned<5> rs1 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
+                unsigned<5> imm12 [[is_imm]] [[in]];
+            }
+            encoding: auto;
             assembly: {"cv.lw", "{name(rd)}, {imm12}({name(rs1)}!)"};
             behavior: {
                 if (rd != 0) X[rd] = LW(X[rs1], 0);
@@ -82,7 +87,12 @@ InstructionSet MySet extends RV64I {
 
 
         CV_MAC [[fuse]] {
-            encoding: 7'b1001000 :: rs2[4:0] :: rs1[4:0] :: 3'b011 :: rd[4:0] :: 7'b0101011;
+            operands: {
+                unsigned<5> rd [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[out]];
+                unsigned<5> rs1 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
+                unsigned<5> rs2 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
+            }
+            encoding: auto;
             assembly: {"cv.mac", "{name(rd)}, {name(rs1)}, {name(rs2)}"};
             behavior: {
                 if (rd != 0) X[rd] = (signed<XLEN>)ADD(X[rd], (signed<XLEN>)MUL(X[rs1], X[rs2]));
@@ -90,7 +100,12 @@ InstructionSet MySet extends RV64I {
         }
 
         CV_MSU [[fuse]] {
-            encoding: 7'b1001001 :: rs2[4:0] :: rs1[4:0] :: 3'b011 :: rd[4:0] :: 7'b0101011;
+            operands: {
+                unsigned<5> rd [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[out]];
+                unsigned<5> rs1 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
+                unsigned<5> rs2 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
+            }
+            encoding: auto;
             assembly:"{name(rd)}, {name(rs1)}, {name(rs2)}";
             behavior: {
                 if (rd != 0) X[rd] = (signed<XLEN>)SUB(X[rd], (signed<XLEN>)MUL(X[rs1], X[rs2]));
@@ -98,7 +113,12 @@ InstructionSet MySet extends RV64I {
         }
 
         CV_CLIP [[fuse]] {
-            encoding: 7'b0111000 :: Iuimm5[4:0] :: rs1[4:0] :: 3'b011 :: rd[4:0] :: 7'b0101011;
+            operands: {
+                unsigned<5> rd [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[out]];
+                unsigned<5> rs1 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
+                unsigned<5> Iuimm5 [[is_imm]] [[in]];
+            }
+            encoding: auto;
             assembly: {"cv.clip", "{name(rd)}, {name(rs1)}, {Iuimm5}" };
             behavior: {
                 if (rd != 0) X[rd] = CV_MIN(CV_MAX(X[rs1], (Iuimm5) ? -(1 << (Iuimm5 - 1)) : -1), (Iuimm5) ? ((1 << (Iuimm5 - 1)) - 1) : 0);
@@ -106,7 +126,12 @@ InstructionSet MySet extends RV64I {
         }
 
         CV_CLIPU [[fuse]] {
-            encoding: 7'b0111001 :: Iuimm5[4:0] :: rs1[4:0] :: 3'b011 :: rd[4:0] :: 7'b0101011;
+            operands: {
+                unsigned<5> rd [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[out]];
+                unsigned<5> rs1 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
+                unsigned<5> Iuimm5 [[is_imm]] [[in]];
+            }
+            encoding: auto;
             assembly: {"cv.clipu", "{name(rd)}, {name(rs1)}, {Iuimm5}" };
             behavior: {
                 if (rd != 0) X[rd] = CV_MINU(CV_MAXU(X[rs1], 0), (Iuimm5) ? ((1 << (Iuimm5 - 1)) - 1) : 0);
@@ -114,7 +139,13 @@ InstructionSet MySet extends RV64I {
         }
 
         CV_ADDN [[fuse]] {
-            encoding: 2'b00 :: Luimm5[4:0] :: rs2[4:0] :: rs1[4:0] :: 3'b010 :: rd[4:0] :: 7'b1011011;
+            operands: {
+                unsigned<5> rd [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[out]];
+                unsigned<5> rs1 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
+                unsigned<5> rs2 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
+                unsigned<5> Luimm5 [[is_imm]] [[in]];
+            }
+            encoding: auto;
             assembly: {"cv.addN", "{name(rd)}, {name(rs1)}, {name(rs2)}, {Luimm5}" };
             behavior: {
                 if (rd != 0) X[rd] = SRAI(ADD(X[rs1], X[rs2]), Luimm5);
