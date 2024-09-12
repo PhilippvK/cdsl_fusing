@@ -74,7 +74,7 @@ InstructionSet MySet extends RV64I {
         CV_LW_ri_inc [[fuse]] {
             operands: {
                 unsigned<5> rd [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[out]];
-                unsigned<5> rs1 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
+                unsigned<5> rs1 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[inout]];
                 unsigned<5> imm12 [[is_imm]] [[in]];
             }
             encoding: auto;
@@ -88,7 +88,7 @@ InstructionSet MySet extends RV64I {
 
         CV_MAC [[fuse]] {
             operands: {
-                unsigned<5> rd [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[out]];
+                unsigned<5> rd [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[inout]];
                 unsigned<5> rs1 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
                 unsigned<5> rs2 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
             }
@@ -101,7 +101,7 @@ InstructionSet MySet extends RV64I {
 
         CV_MSU [[fuse]] {
             operands: {
-                unsigned<5> rd [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[out]];
+                unsigned<5> rd [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[inout]];
                 unsigned<5> rs1 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
                 unsigned<5> rs2 [[is_reg]] [[reg_class="GPR"]] [[reg_type="s64"]] [[in]];
             }
