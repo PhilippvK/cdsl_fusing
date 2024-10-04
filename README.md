@@ -58,8 +58,8 @@ python3 -m m2isar.transforms.eliminate_scalar_assignments.transform inputs/gen_m
 
 ### Write resulting CDSL
 ```
-python -m m2isar.backends.coredsl2_set.writer inputs/gen_model/example_flat.m2isarmodel -o outputs/example_flat_out.core_desc
-# python -m m2isar.backends.coredsl2_set.writer inputs/gen_model/example_flat_manual.m2isarmodel -o outputs/example_flat_manual_out.core_desc
+python -m m2isar.backends.coredsl2_set.writer inputs/gen_model/example_flat.m2isarmodel -o outputs/example_flat_out.core_desc --write-operands
+# python -m m2isar.backends.coredsl2_set.writer inputs/gen_model/example_flat_manual.m2isarmodel -o outputs/example_flat_manual_out.core_desc --write-operands
 ```
 
 ## Workarounds
